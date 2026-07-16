@@ -171,13 +171,6 @@ Metricas expuestas:
   para failover automatico; no se implemento persistencia de esa configuracion en el cliente
   de pruebas. Limitacion documentada en el informe.
 
-## Uso de ayuda externa
-
-Este proyecto fue desarrollado con asistencia de Claude (Anthropic) como apoyo para
-diagnostico de errores de configuracion (Kerberos/SPNEGO en Windows, replicacion LDAP,
-propagacion de KDC), generacion de scripts de prueba y redaccion del informe. Todas las
-decisiones de arquitectura, la ejecucion de las pruebas y la verificacion de resultados
-fueron realizadas por el autor sobre su propio entorno WSL2 + Docker.
 
 ## Informe
 
