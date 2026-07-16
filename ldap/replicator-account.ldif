@@ -1,0 +1,11 @@
+# Cuenta de servicio dedicada para replicacion LDAP (solo lectura).
+# Generar el hash de la contrasena por separado con: slappasswd -s "tu-password"
+# y reemplazar userPassword antes de aplicar con:
+#   ldapadd -x -D "cn=admin,dc=fis,dc=epn,dc=ec" -W -f replicator-account.ldif
+
+dn: cn=replicator,dc=fis,dc=epn,dc=ec
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: replicator
+description: Cuenta de servicio para replicacion LDAP
+userPassword: {SSHA}REEMPLAZAR_CON_HASH_REAL

@@ -1,0 +1,39 @@
+# Aplicar en la REPLICA (ldap2) con: ldapmodify -Y EXTERNAL -H ldapi://
+# Reemplazar CREDENTIALS_AQUI por la contrasena real del usuario replicator
+# (nunca commitear la contrasena real; usar variable de entorno o vault).
+
+# 1. Cargar el modulo syncprov (necesario aunque sea consumidor)
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: syncprov
+
+# 2. ServerID distinto al del master
+dn: cn=config
+changetype: modify
+add: olcServerID
+olcServerID: 2
+
+# 3. Configuracion de syncrepl apuntando al master
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcSyncRepl
+olcSyncRepl: rid=1
+  provider=ldap://host.docker.internal:389
+  bindmethod=simple
+  binddn="cn=replicator,dc=fis,dc=epn,dc=ec"
+  credentials=CREDENTIALS_AQUI
+  searchbase="dc=fis,dc=epn,dc=ec"
+  scope=sub
+  schemachecking=on
+  type=refreshAndPersist
+  retry="5 5 60 +"
+  interval=00:00:00:10
+-
+add: olcUpdateRef
+olcUpdateRef: ldap://host.docker.internal:389
+
+# IMPORTANTE: el esquema de Kerberos (kerberos.openldap.ldif, incluido en el
+# paquete krb5-kdc-ldap) debe importarse tambien en la replica, no solo en el
+# master. Si no, syncrepl rechaza las entradas de usuario que tienen el
+# objectClass krbPrincipalAux con un error de sintaxis.

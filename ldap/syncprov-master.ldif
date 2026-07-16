@@ -1,0 +1,22 @@
+# Aplicar en el MASTER (ldap1) con: ldapmodify -Y EXTERNAL -H ldapi://
+
+# 1. Cargar el modulo syncprov
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: syncprov
+
+# 2. Agregar el overlay syncprov a la base de datos principal ({1}mdb)
+dn: olcOverlay=syncprov,olcDatabase={1}mdb,cn=config
+changetype: add
+objectClass: olcOverlayConfig
+objectClass: olcSyncProvConfig
+olcOverlay: syncprov
+olcSpCheckpoint: 100 10
+olcSpSessionlog: 100
+
+# 3. ServerID unico para este nodo
+dn: cn=config
+changetype: modify
+add: olcServerID
+olcServerID: 1

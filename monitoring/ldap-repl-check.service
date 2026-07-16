@@ -1,0 +1,6 @@
+[Unit]
+Description=Chequeo de retraso de replicacion LDAP
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/ldap_repl_check.sh

@@ -1,0 +1,9 @@
+[Unit]
+Description=Timer para chequeo de replicacion LDAP cada 10s
+
+[Timer]
+OnBootSec=5s
+OnUnitActiveSec=10s
+
+[Install]
+WantedBy=timers.target
